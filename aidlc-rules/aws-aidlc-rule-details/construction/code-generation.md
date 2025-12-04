@@ -13,15 +13,55 @@ This stage generates code for each unit of work through two integrated parts:
 
 ---
 
+## CRITICAL: Code Placement Rules
+
+**NEVER place generated code in `aidlc-docs/`** - This directory is ONLY for documentation.
+
+### Brownfield Projects (Existing Codebase)
+**MANDATORY**: Detect and follow existing project structure:
+1. Scan workspace for existing source directories (`src/`, `lib/`, `app/`, package structures)
+2. Identify language-specific patterns (Java packages, Python modules, etc.)
+3. Place new/modified code in the SAME structure as existing code
+4. Match existing naming conventions, directory depth, and organization
+5. If modifying existing files, edit them in place - do NOT copy to aidlc-docs/
+
+### Greenfield Projects (New Codebase)
+**MANDATORY**: Create standard project structure based on language/framework:
+- **Java/Maven**: `src/main/java/`, `src/test/java/`
+- **Java/Gradle**: `src/main/java/`, `src/test/java/`
+- **Python**: `src/`, `tests/` or root with package structure
+- **JavaScript/Node**: `src/`, `lib/`, `test/`
+- **TypeScript**: `src/`, `dist/`, `test/`
+- **Go**: Package directories following Go conventions
+- **Rust**: `src/`, `tests/`
+- **C#/.NET**: `src/`, `tests/`
+- **Infrastructure (CDK/Terraform)**: `infrastructure/`, `cdk/`, `terraform/`
+
+### Validation Before Code Generation
+**MANDATORY**: Before generating ANY code file:
+1. Determine target directory by analyzing existing structure OR creating standard structure
+2. Verify target path is NOT under `aidlc-docs/`
+3. If path contains `aidlc-docs/`, STOP and recalculate correct path
+4. Document target paths in code generation plan for user review
+
+---
+
 # PART 1: PLANNING
 
-## Step 1: Analyze Unit Context
+## Step 1: Detect Project Structure (MANDATORY)
+- [ ] **Brownfield**: Scan workspace to identify existing source directories and patterns
+- [ ] **Brownfield**: Document existing structure (e.g., "Java Maven project with src/main/java/com/example/")
+- [ ] **Greenfield**: Determine language/framework and standard structure to create
+- [ ] **CRITICAL**: Verify NO code will be placed in `aidlc-docs/` directory
+- [ ] Document target code directories in the plan for user review
+
+## Step 2: Analyze Unit Context
 - [ ] Read unit design artifacts from Unit Design Generation
 - [ ] Read unit story map to understand assigned stories
 - [ ] Identify unit dependencies and interfaces
 - [ ] Validate unit is ready for code generation
 
-## Step 2: Create Detailed Unit Code Generation Plan
+## Step 3: Create Detailed Unit Code Generation Plan
 - [ ] Create explicit steps for unit generation:
   - Business Logic Generation
   - Business Logic Unit Testing
@@ -39,7 +79,7 @@ This stage generates code for each unit of work through two integrated parts:
 - [ ] Include story mapping references for this unit
 - [ ] Add checkboxes [ ] for each step
 
-## Step 3: Include Unit Generation Context
+## Step 4: Include Unit Generation Context
 - [ ] For this unit, include:
   - Stories implemented by this unit
   - Dependencies on other units/services
@@ -47,7 +87,7 @@ This stage generates code for each unit of work through two integrated parts:
   - Database entities owned by this unit
   - Service boundaries and responsibilities
 
-## Step 4: Create Unit Plan Document
+## Step 5: Create Unit Plan Document
 - [ ] Save complete plan as `aidlc-docs/construction/plans/{unit-name}-code-generation-plan.md`
 - [ ] Include step numbering (Step 1, Step 2, etc.)
 - [ ] Include unit context and dependencies
@@ -55,28 +95,28 @@ This stage generates code for each unit of work through two integrated parts:
 - [ ] Ensure plan is executable step-by-step
 - [ ] Emphasize that this plan is the single source of truth for Code Generation
 
-## Step 5: Summarize Unit Plan
+## Step 6: Summarize Unit Plan
 - [ ] Provide summary of the unit code generation plan to the user
 - [ ] Highlight unit generation approach
 - [ ] Explain step sequence and story coverage
 - [ ] Note total number of steps and estimated scope
 
-## Step 6: Log Approval Prompt
+## Step 7: Log Approval Prompt
 - [ ] Before asking for approval, log the prompt with timestamp in `aidlc-docs/audit.md`
 - [ ] Include reference to the complete unit code generation plan
 - [ ] Use ISO 8601 timestamp format
 
-## Step 7: Wait for Explicit Approval
+## Step 8: Wait for Explicit Approval
 - [ ] Do not proceed until the user explicitly approves the unit code generation plan
 - [ ] Approval must cover the entire plan and generation sequence
 - [ ] If user requests changes, update the plan and repeat approval process
 
-## Step 8: Record Approval Response
+## Step 9: Record Approval Response
 - [ ] Log the user's approval response with timestamp in `aidlc-docs/audit.md`
 - [ ] Include the exact user response text
 - [ ] Mark the approval status clearly
 
-## Step 9: Update Progress
+## Step 10: Update Progress
 - [ ] Mark Code Planning complete in `aidlc-state.md`
 - [ ] Update the "Current Status" section
 - [ ] Prepare for transition to Code Generation
@@ -85,28 +125,30 @@ This stage generates code for each unit of work through two integrated parts:
 
 # PART 2: GENERATION
 
-## Step 10: Load Unit Code Generation Plan
+## Step 11: Load Unit Code Generation Plan
 - [ ] Read the complete plan from `aidlc-docs/construction/plans/{unit-name}-code-generation-plan.md`
 - [ ] Identify the next uncompleted step (first [ ] checkbox)
 - [ ] Load the context for that step (unit, dependencies, stories)
 
-## Step 11: Execute Current Step
+## Step 12: Execute Current Step
 - [ ] Perform exactly what the current step describes
-- [ ] Place generated code in appropriate project directories following existing structure, NOT in aidlc-docs/
+- [ ] **CRITICAL**: Place code in detected project structure from Step 1 - NEVER in aidlc-docs/
+- [ ] **Brownfield**: Match existing directory patterns, naming conventions, and organization
+- [ ] **Greenfield**: Use standard structure for the language/framework
 - [ ] Follow the unit's story requirements
 - [ ] Respect dependencies and interfaces defined in the plan
 
-## Step 12: Update Progress
+## Step 13: Update Progress
 - [ ] Mark the completed step as [x] in the unit code generation plan
 - [ ] Mark associated unit stories as [x] when their generation is finished
 - [ ] Update `aidlc-docs/aidlc-state.md` current status
 - [ ] Save all generated artifacts
 
-## Step 13: Continue or Complete Generation
-- [ ] If more steps remain, return to Step 10
+## Step 14: Continue or Complete Generation
+- [ ] If more steps remain, return to Step 11
 - [ ] If all steps complete, proceed to present completion message
 
-## Step 14: Present Completion Message
+## Step 15: Present Completion Message
 - Present completion message in this structure:
      1. **Completion Announcement** (mandatory): Always start with this:
 
@@ -139,12 +181,12 @@ This stage generates code for each unit of work through two integrated parts:
 ---
 ```
 
-## Step 15: Wait for Explicit Approval
+## Step 16: Wait for Explicit Approval
 - Do not proceed until the user explicitly approves the generated code
 - Approval must be clear and unambiguous
 - If user requests changes, update the code and repeat the approval process
 
-## Step 16: Record Approval and Update Progress
+## Step 17: Record Approval and Update Progress
 - Log approval in audit.md with timestamp
 - Record the user's approval response with timestamp
 - Mark Code Generation stage as complete for this unit in aidlc-state.md
@@ -154,12 +196,17 @@ This stage generates code for each unit of work through two integrated parts:
 ## Critical Rules
 
 ### Planning Phase Rules
+- **DETECT PROJECT STRUCTURE FIRST**: Always identify existing code directories before planning
+- **DOCUMENT TARGET PATHS**: Include specific code placement paths in the plan
 - Create explicit, numbered steps for all generation activities
 - Include story traceability in the plan
 - Document unit context and dependencies
 - Get explicit user approval before generation
 
 ### Generation Phase Rules
+- **NEVER USE aidlc-docs/ FOR CODE**: This is a blocking error - code ONLY goes in project source directories
+- **BROWNFIELD**: Match existing project structure exactly - same patterns, same conventions
+- **GREENFIELD**: Create standard language/framework structure - never invent custom locations
 - **NO HARDCODED LOGIC**: Only execute what's written in the unit plan
 - **FOLLOW PLAN EXACTLY**: Do not deviate from the step sequence
 - **UPDATE CHECKBOXES**: Mark [x] immediately after completing each step
