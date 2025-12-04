@@ -72,7 +72,8 @@ If you do not see the `aws-aidlc-rules` rules loaded, please check the directory
 4. Carefully review every plan that AI generates. Provide your oversight and validation.
 5. Review the execution plan to see which stages will run
 6. Carefully review the artifacts and approve each stage to maintain control
-7. All the artifacts will be generated in the `aidlc-docs/` directory
+7. Documentation artifacts (requirements, designs, plans) will be generated in `aidlc-docs/`
+8. Generated code will be placed in appropriate project directories
 
 ## Three-Phase Adaptive Workflow
 

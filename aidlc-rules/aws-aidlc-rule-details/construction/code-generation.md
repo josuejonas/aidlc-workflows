@@ -92,7 +92,7 @@ This stage generates code for each unit of work through two integrated parts:
 
 ## Step 11: Execute Current Step
 - [ ] Perform exactly what the current step describes
-- [ ] Generate code, tests, or documentation as specified
+- [ ] Place generated code in appropriate project directories following existing structure, NOT in aidlc-docs/
 - [ ] Follow the unit's story requirements
 - [ ] Respect dependencies and interfaces defined in the plan
 
@@ -125,7 +125,7 @@ This stage generates code for each unit of work through two integrated parts:
 
 ```markdown
 > **📋 <u>**REVIEW REQUIRED:**</u>**  
-> Please examine the generated code at: `aidlc-docs/construction/[unit-name]/code/`
+> Please examine the generated code in your project source directories
 
 
 

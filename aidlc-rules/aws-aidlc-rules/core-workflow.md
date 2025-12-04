@@ -527,11 +527,9 @@ aidlc-docs/
 │   │   ├── nfr-design/
 │   │   │   ├── nfr-design-patterns.md
 │   │   │   └── logical-components.md
-│   │   ├── infrastructure-design/
-│   │   │   ├── infrastructure-design.md
-│   │   │   └── deployment-architecture.md
-│   │   └── code/
-│   │       └── [generated code files]
+│   │   └── infrastructure-design/
+│   │       ├── infrastructure-design.md
+│   │       └── deployment-architecture.md
 │   └── build-and-test/
 │       ├── build-instructions.md
 │       ├── unit-test-instructions.md
